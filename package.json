@@ -6,12 +6,23 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build",
+    "tsc": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "^2.8.3"
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "parcel": "^2.8.3",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "alias": {
+    "process": false
   }
 }
