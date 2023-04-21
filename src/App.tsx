@@ -1,14 +1,42 @@
-import {defaultTheme, Flex, Item, ListView, Provider} from '@adobe/react-spectrum';
+import {defaultTheme, Flex, Item, ListData, ListView, Provider, SpectrumListViewProps, useListData} from '@adobe/react-spectrum';
+
+interface Item {
+  id: string;
+  name: string;
+}
+
+interface MyListViewProps<T> extends SpectrumListViewProps<T> {
+  lst: ListData<T>;
+}
+
+function MyListView<T extends Item>(props: MyListViewProps<T>) {
+  const { lst, ...otherProps } = props;
+  return (
+    <ListView items={lst.items} {...otherProps} >
+      {item => (
+        <Item key={item.id}>
+          {item.name}
+        </Item>
+      )}
+    </ListView>
+  );
+}
 
 export function App() {
+  const lst = useListData({
+    initialItems: [
+      { id: '1', name: 'Adobe Photoshop' },
+      { id: '2', name: 'Adobe XD' },
+      { id: '3', name: 'Adobe InDesign' },
+      { id: '4', name: 'Adobe AfterEffects' }
+    ]
+  });
+
   return (
     <Provider theme={defaultTheme}>
       <Flex minHeight="100vh">
-        <ListView minWidth="size-3000">
-          <Item>Item 1</Item>
-          <Item>Item 2</Item>
-          <Item>Item 3</Item>
-        </ListView>
+        <MyListView minWidth="size-3000" lst={lst}>
+        </MyListView>
       </Flex>
     </Provider>
   );
