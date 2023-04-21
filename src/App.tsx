@@ -1,20 +1,17 @@
 import {defaultTheme, Flex, Item, ListData, ListView, Provider, SpectrumListViewProps, useListData} from '@adobe/react-spectrum';
+import { forwardRef, useRef } from 'react';
 
 interface Item {
   id: string;
   name: string;
 }
 
-interface MyListViewProps_<T> extends SpectrumListViewProps<T> {
-  lst: ListData<T>;
-}
+type MyListViewProps<T> = Omit<SpectrumListViewProps<T> & { lst: ListData<T> }, 'children'>;
 
-type MyListViewProps<T> = Omit<MyListViewProps_<T>, 'children'>;
-
-function MyListView<T extends Item>(props: MyListViewProps<T>) {
+const MyListView = forwardRef(<T extends Item>(props: MyListViewProps<T>, ref: any) => {
   const { lst, ...otherProps } = props;
   return (
-    <ListView items={lst.items} {...otherProps} >
+    <ListView items={lst.items} {...otherProps} ref={ref} >
       {item => (
         <Item key={item.id}>
           {item.name}
@@ -22,9 +19,10 @@ function MyListView<T extends Item>(props: MyListViewProps<T>) {
       )}
     </ListView>
   );
-}
+});
 
 export function App() {
+  const ref = useRef();
   const lst = useListData({
     initialItems: [
       { id: '1', name: 'Adobe Photoshop' },
@@ -37,7 +35,7 @@ export function App() {
   return (
     <Provider theme={defaultTheme}>
       <Flex minHeight="100vh">
-        <MyListView minWidth="size-3000" lst={lst} />
+        <MyListView minWidth="size-3000" lst={lst} ref={ref} />
       </Flex>
     </Provider>
   );
