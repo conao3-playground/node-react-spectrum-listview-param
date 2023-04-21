@@ -5,9 +5,11 @@ interface Item {
   name: string;
 }
 
-interface MyListViewProps<T> extends SpectrumListViewProps<T> {
+interface MyListViewProps_<T> extends SpectrumListViewProps<T> {
   lst: ListData<T>;
 }
+
+type MyListViewProps<T> = Omit<MyListViewProps_<T>, 'children'>;
 
 function MyListView<T extends Item>(props: MyListViewProps<T>) {
   const { lst, ...otherProps } = props;
@@ -35,8 +37,7 @@ export function App() {
   return (
     <Provider theme={defaultTheme}>
       <Flex minHeight="100vh">
-        <MyListView minWidth="size-3000" lst={lst}>
-        </MyListView>
+        <MyListView minWidth="size-3000" lst={lst} />
       </Flex>
     </Provider>
   );
